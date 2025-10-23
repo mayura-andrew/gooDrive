@@ -3,226 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Drive CLI - Command Line Interface for Google Drive</title>
+    <meta name="description" content="gooDrive - A minimalist Google Drive CLI tool built with Go">
+    <title>gooDrive | Google Drive CLI</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --accent-hover: #79c0ff;
+            --border: #30363d;
+            --success: #3fb950;
+            --code-bg: #161b22;
         }
-        
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Noto Color Emoji', 'Segoe UI Emoji', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 0 24px;
         }
-        
+
+        /* Header */
         header {
-            text-align: center;
-            color: white;
-            padding: 3rem 0;
+            padding: 32px 0;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
         }
-        
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        
-        .subtitle {
-            font-size: 1.3rem;
-            opacity: 0.9;
+
+        .logo {
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        .content {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            margin: 2rem 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+        .logo::before {
+            content: '>';
+            color: var(--success);
+            font-weight: 900;
         }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+
+        nav {
+            display: flex;
+            gap: 32px;
+            align-items: center;
         }
-        
-        .feature {
-            padding: 1.5rem;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            transition: transform 0.3s;
-        }
-        
-        .feature:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-        
-        .feature h3 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-        }
-        
-        .install-section {
-            background: #f7f7f7;
-            padding: 2rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-        }
-        
-        code {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 1rem;
-            border-radius: 5px;
-            display: block;
-            margin: 1rem 0;
-            overflow-x: auto;
-        }
-        
-        .command-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .command-list li {
-            padding: 0.8rem;
-            margin: 0.5rem 0;
-            background: #f0f0f0;
-            border-left: 4px solid #667eea;
-            border-radius: 4px;
-        }
-        
-        .command-list strong {
-            color: #667eea;
-        }
-        
-        footer {
-            text-align: center;
-            color: white;
-            padding: 2rem 0;
-            margin-top: 3rem;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 0.8rem 2rem;
-            background: #667eea;
-            color: white;
+
+        nav a {
+            color: var(--text-secondary);
             text-decoration: none;
-            border-radius: 5px;
-            margin: 0.5rem;
-            transition: background 0.3s;
+            font-size: 14px;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        .btn:hover {
-            background: #5568d3;
+
+        nav a:hover {
+            color: var(--accent);
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>🚀 Google Drive CLI</h1>
-            <p class="subtitle">Access, sync, and manage your Google Drive from the command line</p>
-            <div style="margin-top: 2rem;">
-                <a href="https://github.com/yourusername/gooDrive" class="btn">View on GitHub</a>
-                <a href="#install" class="btn">Get Started</a>
-            </div>
-        </header>
-        
-        <div class="content">
-            <h2>✨ Features</h2>
-            <div class="features">
-                <div class="feature">
-                    <h3>📥 Clone Files</h3>
-                    <p>Download files and folders from Google Drive with a simple command</p>
-                </div>
-                <div class="feature">
-                    <h3>📤 Upload & Sync</h3>
-                    <p>Upload local files and keep them in sync with Drive</p>
-                </div>
-                <div class="feature">
-                    <h3>📋 List & Browse</h3>
-                    <p>Browse your Drive files directly from the terminal</p>
-                </div>
-                <div class="feature">
-                    <h3>🔄 Push & Pull</h3>
-                    <p>Git-like workflow for managing Drive files</p>
-                </div>
-                <div class="feature">
-                    <h3>👀 View Contents</h3>
-                    <p>Preview file contents without downloading</p>
-                </div>
-                <div class="feature">
-                    <h3>🗑️ Delete Files</h3>
-                    <p>Remove files from Drive with confirmation</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="content" id="install">
-            <h2>📦 Installation</h2>
-            <div class="install-section">
-                <h3>From Source</h3>
-                <code>git clone https://github.com/yourusername/gooDrive.git
-cd gooDrive
-go build -o drive main.go</code>
-            </div>
-        </div>
-        
-        <div class="content">
-            <h2>🎯 Quick Start</h2>
-            <ol style="padding-left: 2rem;">
-                <li>Set up your OAuth credentials (oauth.json)</li>
-                <li>Run any command to authenticate</li>
-                <li>Start managing your Drive files!</li>
-            </ol>
-            <code>./drive clone &lt;file-id-or-link&gt;</code>
-        </div>
-        
-        <div class="content">
-            <h2>📚 Available Commands</h2>
-            <ul class="command-list">
-                <li><strong>clone</strong> - Download file or folder from Google Drive</li>
-                <li><strong>add-remote</strong> - Upload local file to Google Drive and track it</li>
-                <li><strong>view-files</strong> - List files in Google Drive with filters</li>
-                <li><strong>ls</strong> - List files in current Drive directory</li>
-                <li><strong>status</strong> - Show status of tracked files</li>
-                <li><strong>pull</strong> - Pull latest changes from Drive</li>
-                <li><strong>push</strong> - Push local changes to Drive</li>
-                <li><strong>rm</strong> - Remove file from Drive</li>
-                <li><strong>cat</strong> - View file contents without downloading</li>
-            </ul>
-        </div>
-        
-        <div class="content">
-            <h2>🔐 Authentication</h2>
-            <p>The CLI uses OAuth2 for secure authentication. On first run, it will:</p>
-            <ol style="padding-left: 2rem; margin-top: 1rem;">
-                <li>Start a local server on port 8080</li>
-                <li>Open your browser for Google authentication</li>
-                <li>Save credentials for future use</li>
-            </ol>
-        </div>
-        
-        <footer>
-            <p>Built with ❤️ using Go and Google Drive API</p>
-            <p style="margin-top: 0.5rem; opacity: 0.8;">MIT License</p>
-        </footer>
-    </div>
-</body>
-</html>
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--success) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Courier New', monospace;
+        }
+
+        .hero h1::before {
+            content: '[';
+            color: var(--success);
+        }
+
+        .hero h1::after {
+            content: ']';
+            color: var(--success);
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 48px;
+        }
+
+        .terminal {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 700px;
+            margin: 0 auto 48px;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .terminal-content {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .prompt {
+            color: var(--success);
+        }
+
+        .command {
+            color: var(--accent);
+        }
+
+        .output {
+            color: var(--text-secondary);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 32px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(88, 166, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: var(--bg-secondary);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
             margin-bottom: 64px;
             color: var(--text-primary);
         }
