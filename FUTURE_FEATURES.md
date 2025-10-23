@@ -4,7 +4,7 @@ This document outlines potential advanced features that could be developed for t
 
 ---
 
-## 🔄 Sync & Version Control
+## 🔃 Sync & Version Control
 
 ### Real-time Sync
 - **Watch mode**: Continuously monitor local directory for changes and auto-sync
