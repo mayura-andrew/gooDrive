@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Drive CLI - Authentication</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        
+        .status {
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.pending {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .message {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .detail {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .close-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .close-btn:hover {
+            background: #5568d3;
+        }
+        
+        .close-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">📁</div>
+        <h1>Google Drive CLI</h1>
+        <p class="subtitle">Authentication</p>
+        
+        <div id="status" class="status pending">
+            <div class="spinner"></div>
+            <div class="message">Processing authentication...</div>
+            <div class="detail">Please wait while we complete the setup</div>
+        </div>
+        
+        <button id="closeBtn" class="close-btn" disabled>Return to Terminal</button>
+        
+        <div class="footer">
+            You can safely close this window after authentication is complete
+        </div>
+    </div>
+    
+    <script>
+        const statusDiv = document.getElementById('status');
+        const closeBtn = document.getElementById('closeBtn');
+        
+        // Parse URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const error = urlParams.get('error');
+        const success = urlParams.get('success');
+        
+        if (success === 'true') {
+            // Authentication successful
+            statusDiv.className = 'status success';
+            statusDiv.innerHTML = `
+                <div class="icon">✅</div>
+                <div class="message">Authentication Successful!</div>
+                <div class="detail">You can now return to your terminal and use the CLI</div>
+            `;
+            closeBtn.disabled = false;
+            
+            // Auto-close after 3 seconds
+            setTimeout(() => {
+                window.close();
+            }, 3000);
+        } else if (error) {
+            // Authentication failed
+            statusDiv.className = 'status error';
+            statusDiv.innerHTML = `
+                <div class="icon">❌</div>
+                <div class="message">Authentication Failed</div>
+                <div class="detail">${error}</div>
+            `;
+            closeBtn.disabled = false;
+        } else if (code) {
+            // Code received, processing
+            statusDiv.className = 'status pending';
+            statusDiv.innerHTML = `
+                <div class="spinner"></div>
+                <div class="message">Completing authentication...</div>
+                <div class="detail">This will only take a moment</div>
+            `;
+            
+            // Send code to local server
+            fetch('/callback?code=' + encodeURIComponent(code))
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = '/?success=true';
+                    } else {
+                        window.location.href = '/?error=' + encodeURIComponent(data.error || 'Unknown error');
+                    }
+                })
+                .catch(err => {
+                    window.location.href = '/?error=' + encodeURIComponent('Failed to complete authentication');
+                });
+        }
+        
+        closeBtn.addEventListener('click', () => {
+            window.close();
+        });
+    </script>
+</body>
+</html>

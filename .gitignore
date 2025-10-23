@@ -1,0 +1,37 @@
+# Binaries
+drive
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Output
+*.out
+
+# OAuth credentials (NEVER COMMIT)
+oauth.json
+.drive-cli-token.json
+
+# Metadata files
+*.drive-cli-meta.json
+
+# Go workspace
+go.work
+go.work.sum
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
