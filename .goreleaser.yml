@@ -14,6 +14,8 @@ builds:
     binary: gooDrive
     ldflags:
       - -s -w
+    flags:
+      - -mod=mod
     mod_timestamp: '{{ .CommitTimestamp }}'
 
 archives:
