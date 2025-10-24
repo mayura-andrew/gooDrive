@@ -1,4 +1,4 @@
-# gooDrive 🚀
+# gooDrive 
 
 A powerful, minimalist CLI tool for Google Drive operations. Manage your Drive files directly from the terminal with ease.
 
