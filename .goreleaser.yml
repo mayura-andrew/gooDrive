@@ -3,7 +3,7 @@ version: 2
 before:
   hooks:
     - go mod download
-    - go mod verify
+    - go mod vendor
 
 builds:
   - main: ./main.go
@@ -21,15 +21,11 @@ builds:
       - -s -w
 
 archives:
-  - format: tar.gz
-    name_template: >-
+  - name_template: >-
       {{ .ProjectName }}_
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else }}{{ .Arch }}{{ end }}
-    format_overrides:
-      - goos: windows
-        format: zip
 
 checksum:
   name_template: 'checksums.txt'
