@@ -62,9 +62,52 @@ gooDrive --help
 
 ---
 
+## 🔐 Authentication
+
+### First-Time Setup
+
+Run the authentication command to log in with your Google account:
+
+```bash
+./gooDrive auth
+```
+
+This will:
+- Open your browser for you to sign in with Google
+- Request permissions to access your Google Drive
+- Save your authentication token locally
+- Verify access to your Drive
+
+### Automatic Token Refresh
+
+Your authentication tokens are automatically refreshed when needed. If a token expires during a command, gooDrive will silently refresh it.
+
+### Manual Token Refresh
+
+To manually refresh your authentication token:
+
+```bash
+./gooDrive auth refresh
+```
+
+### Re-authenticate with Different Account
+
+To switch Google accounts or re-authenticate:
+
+```bash
+./gooDrive auth
+```
+
+This will replace your existing token with a new one from the account you sign in with.
+
+---
+
 ## 🚀 Usage
 
 ```bash
+# Authenticate (first time or to switch accounts)
+gooDrive auth
+
 # Download
 gooDrive download <file-id>
 

@@ -59,12 +59,25 @@ func InitOAuthFromFile() error {
 	return nil
 }
 
+// GetToken returns a valid token, refreshing if necessary
 func GetToken(ctx context.Context) (*oauth2.Token, error) {
 	tok, err := tokenFromFile(TokenFile)
 	if err != nil {
-		tok = GetTokenFromWeb(OAuthConfig)
-		SaveToken(tok)
+		return nil, fmt.Errorf("token file not found: %v. Run 'gooDrive auth' to authenticate", err)
 	}
+
+	// Check if token is expired and refresh if needed
+	if tok.Expiry.Before(time.Now()) {
+		log.Println("Token expired, refreshing...")
+		newTok, err := OAuthConfig.TokenSource(ctx, tok).Token()
+		if err != nil {
+			return nil, fmt.Errorf("failed to refresh token: %v. Run 'gooDrive auth' to re-authenticate", err)
+		}
+		tok = newTok
+		SaveToken(tok)
+		log.Println("Token refreshed successfully")
+	}
+
 	return tok, nil
 }
 

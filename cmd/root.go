@@ -32,6 +32,7 @@ func init() {
 	}
 
 	// Add subcommands
+	rootCmd.AddCommand(authCmd)
 	rootCmd.AddCommand(downloadCmd)
 	rootCmd.AddCommand(uploadCmd)
 	rootCmd.AddCommand(listCmd)
