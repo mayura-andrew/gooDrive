@@ -2,6 +2,8 @@
 
 A powerful, minimalist CLI tool for Google Drive operations. Manage your Drive files directly from the terminal with ease.
 
+**Current Status**: 🟡 **BETA RELEASE** (v0.1.0-beta.1) - [Report Issues](https://github.com/mayura-andrew/gooDrive/issues)
+
 [![GitHub stars](https://img.shields.io/github/stars/mayura-andrew/gooDrive?style=social)](https://github.com/mayura-andrew/gooDrive/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/mayura-andrew/gooDrive?style=social)](https://github.com/mayura-andrew/gooDrive/network/members)
 
