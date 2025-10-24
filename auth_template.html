@@ -3,120 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Drive CLI - Authentication</title>
+    <title>gooDrive - Authentication</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --accent-hover: #79c0ff;
+            --border: #30363d;
+            --success: #3fb950;
+            --error: #f85149;
+            --warning: #d29922;
+            --code-bg: #161b22;
+        }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(88, 166, 255, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         
         .container {
-            background: white;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
             border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             max-width: 500px;
             width: 100%;
-            padding: 40px;
+            padding: 48px 40px;
             text-align: center;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--success));
+            border-radius: 12px 12px 0 0;
         }
         
         .logo {
-            font-size: 48px;
-            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .logo::before {
+            content: '>';
+            color: var(--success);
+            font-weight: 900;
         }
         
         h1 {
-            color: #333;
+            color: var(--text-primary);
             font-size: 24px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            font-weight: 600;
         }
         
         .subtitle {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 14px;
-            margin-bottom: 30px;
+            margin-bottom: 32px;
         }
         
         .status {
-            padding: 20px;
+            padding: 24px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            border: 1px solid;
+            transition: all 0.3s ease;
         }
         
         .status.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: rgba(63, 185, 80, 0.1);
+            border-color: var(--success);
         }
         
         .status.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: rgba(248, 81, 73, 0.1);
+            border-color: var(--error);
         }
         
         .status.pending {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
+            background: rgba(210, 153, 34, 0.1);
+            border-color: var(--warning);
         }
         
         .icon {
-            font-size: 48px;
-            margin-bottom: 15px;
+            font-size: 56px;
+            margin-bottom: 16px;
+            animation: bounceIn 0.5s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
         .message {
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
         }
         
         .detail {
             font-size: 14px;
-            opacity: 0.8;
+            color: var(--text-secondary);
+            line-height: 1.5;
         }
         
         .close-btn {
-            background: #667eea;
-            color: white;
+            background: var(--accent);
+            color: var(--bg-primary);
             border: none;
-            padding: 12px 30px;
+            padding: 12px 32px;
             border-radius: 6px;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.2s ease;
+            font-family: inherit;
         }
         
-        .close-btn:hover {
-            background: #5568d3;
+        .close-btn:hover:not(:disabled) {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(88, 166, 255, 0.3);
         }
         
         .close-btn:disabled {
-            background: #ccc;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
             cursor: not-allowed;
+            opacity: 0.5;
         }
         
         .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--bg-tertiary);
+            border-top: 4px solid var(--accent);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
             animation: spin 1s linear infinite;
-            margin: 20px auto;
+            margin: 0 auto 20px;
         }
         
         @keyframes spin {
@@ -125,28 +201,95 @@
         }
         
         .footer {
-            margin-top: 30px;
+            margin-top: 32px;
             font-size: 12px;
-            color: #999;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .footer::before {
+            content: '🔒';
+            font-size: 14px;
+        }
+
+        .terminal-preview {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 16px;
+            margin-top: 20px;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .terminal-line {
+            margin: 4px 0;
+            color: var(--text-secondary);
+        }
+
+        .prompt {
+            color: var(--success);
+        }
+
+        .command {
+            color: var(--accent);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        /* Progress dots animation */
+        .progress-dots {
+            display: inline-block;
+            width: 60px;
+            text-align: left;
+        }
+
+        .progress-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">📁</div>
-        <h1>Google Drive CLI</h1>
-        <p class="subtitle">Authentication</p>
+    <div class="container fade-in">
+        <div class="logo">gooDrive</div>
+        <h1>Authentication</h1>
+        <p class="subtitle">Secure OAuth 2.0 Connection</p>
         
         <div id="status" class="status pending">
             <div class="spinner"></div>
-            <div class="message">Processing authentication...</div>
-            <div class="detail">Please wait while we complete the setup</div>
+            <div class="message">Processing authentication<span class="progress-dots"></span></div>
+            <div class="detail">Establishing secure connection with Google Drive</div>
         </div>
         
         <button id="closeBtn" class="close-btn" disabled>Return to Terminal</button>
         
         <div class="footer">
-            You can safely close this window after authentication is complete
+            Encrypted and secure authentication flow
         </div>
     </div>
     
@@ -164,23 +307,29 @@
             // Authentication successful
             statusDiv.className = 'status success';
             statusDiv.innerHTML = `
-                <div class="icon">✅</div>
+                <div class="icon">✓</div>
                 <div class="message">Authentication Successful!</div>
-                <div class="detail">You can now return to your terminal and use the CLI</div>
+                <div class="detail">You can now use gooDrive from your terminal</div>
+                <div class="terminal-preview">
+                    <div class="terminal-line"><span class="prompt">$</span> <span class="command">gooDrive list</span></div>
+                    <div class="terminal-line"><span class="prompt">$</span> <span class="command">gooDrive download &lt;file-id&gt;</span></div>
+                </div>
             `;
             closeBtn.disabled = false;
             
             // Auto-close after 3 seconds
             setTimeout(() => {
-                window.close();
+                statusDiv.innerHTML += '<div class="detail" style="margin-top: 16px;">Closing automatically...</div>';
+                setTimeout(() => window.close(), 1000);
             }, 3000);
         } else if (error) {
             // Authentication failed
             statusDiv.className = 'status error';
             statusDiv.innerHTML = `
-                <div class="icon">❌</div>
+                <div class="icon">✗</div>
                 <div class="message">Authentication Failed</div>
-                <div class="detail">${error}</div>
+                <div class="detail">${escapeHtml(error)}</div>
+                <div class="detail" style="margin-top: 12px;">Please close this window and try again</div>
             `;
             closeBtn.disabled = false;
         } else if (code) {
@@ -188,8 +337,8 @@
             statusDiv.className = 'status pending';
             statusDiv.innerHTML = `
                 <div class="spinner"></div>
-                <div class="message">Completing authentication...</div>
-                <div class="detail">This will only take a moment</div>
+                <div class="message">Completing authentication<span class="progress-dots"></span></div>
+                <div class="detail">Exchanging authorization code for access token</div>
             `;
             
             // Send code to local server
@@ -199,17 +348,28 @@
                     if (data.success) {
                         window.location.href = '/?success=true';
                     } else {
-                        window.location.href = '/?error=' + encodeURIComponent(data.error || 'Unknown error');
+                        window.location.href = '/?error=' + encodeURIComponent(data.error || 'Unknown error occurred');
                     }
                 })
                 .catch(err => {
-                    window.location.href = '/?error=' + encodeURIComponent('Failed to complete authentication');
+                    window.location.href = '/?error=' + encodeURIComponent('Failed to complete authentication. Please try again.');
                 });
         }
         
         closeBtn.addEventListener('click', () => {
             window.close();
+            // Fallback if window.close() doesn't work
+            setTimeout(() => {
+                document.body.innerHTML = '<div style="text-align: center; padding: 50px; font-family: monospace;">You can safely close this window now.</div>';
+            }, 500);
         });
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
     </script>
 </body>
 </html>

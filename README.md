@@ -1,99 +1,86 @@
 # gooDrive 🚀
 
-A minimalist CLI tool for Google Drive operations. Sync, upload, download, and manage your Drive files from the terminal.
+A powerful, minimalist CLI tool for Google Drive operations. Manage your Drive files directly from the terminal with ease.
 
-## Features
+[![Website](https://img.shields.io/badge/Website-gooDrive-blue)](https://mayura-andrew.github.io/gooDrive/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8?logo=go)](https://golang.org/)
 
-- 📥 Clone files/folders from Drive
-- 📤 Upload and track local files
-- 🔄 Sync changes bidirectionally
-- 📋 List and search Drive contents
-- 👁️ Preview file contents
-- 🗑️ Delete files remotely
-
-## Installation
-
-```bash
-git clone https://github.com/mayura-andrew/gooDrive.git
-cd gooDrive
-make install
-```
-
-Or build from source:
-
-```bash
-go build -o drive cmd/drive/main.go
-sudo mv drive /usr/local/bin/
-```
-
-## Setup
-
-1. Create a Google Cloud project and enable Drive API
-2. Download OAuth credentials as `oauth.json`
-3. Place `oauth.json` in the same directory
-4. Run any command to authenticate
-
-```bash
-drive ls
-```
-
-## Usage
-
-### Download from Drive
-```bash
-drive clone <file-id-or-link>
-drive clone https://drive.google.com/file/d/abc123/view
-```
-
-### Upload to Drive
-```bash
-drive add-remote myfile.txt
-```
-
-### List files
-```bash
-drive ls                           # Current directory
-drive view-files                   # All files
-drive view-files --name="report"   # Filter by name
-```
-
-### Sync operations
-```bash
-drive status    # Check tracked files
-drive pull      # Download updates
-drive push      # Upload changes
-```
-
-### File operations
-```bash
-drive cat <file-id>    # View contents
-drive rm <file-id>     # Delete file
-```
-
-## Configuration
-
-Token and metadata files are stored in your working directory:
-- `.drive-cli-token.json` - OAuth token
-- `*/.drive-cli-meta.json` - File tracking metadata
-
-## Requirements
-
-- Go 1.19+
-- Google Cloud OAuth credentials
-- Internet connection
-
-## License
-
-MIT
-
-## Contributing
-
-Pull requests welcome. Please open an issue first to discuss changes.
-
-## Author
-
-Mayura Andrew
+**[📖 Documentation](https://mayura-andrew.github.io/gooDrive/)** | **[🚀 Getting Started](#installation)** | **[🤝 Contributing](CONTRIBUTING.md)**
 
 ---
 
-**Note:** This tool requires proper Google Drive API credentials. Never share your `oauth.json` or token files.
+## ✨ Features
+
+- 📥 **Download** - Clone files and folders from Google Drive  
+- 📤 **Upload** - Upload files to your Drive with tracking  
+- 📋 **List** - Browse and filter your Drive contents  
+- 🔍 **Search** - Find files quickly with advanced queries  
+- 🔗 **Share** - Generate shareable links and manage permissions  
+- 🔄 **Sync** - Synchronize local folders with Drive  
+
+---
+
+## 📦 Installation
+
+### Quick Install
+
+```bash
+# Clone and build
+git clone https://github.com/mayura-andrew/gooDrive.git
+cd gooDrive
+make build
+
+# Run
+./gooDrive --help
+```
+
+### Install Globally
+
+```bash
+make install
+gooDrive --help
+```
+
+---
+
+## 🔧 Setup OAuth Credentials
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com)
+2. Enable **Google Drive API**
+3. Create **OAuth 2.0 Client ID** (Desktop app)
+4. Download credentials as `oauth.json`
+5. Place in project root
+
+---
+
+## 🚀 Usage
+
+```bash
+# Download
+gooDrive download <file-id>
+
+# Upload
+gooDrive upload document.pdf
+
+# List
+gooDrive list --name "report"
+
+# Search
+gooDrive search "presentation"
+
+# Share
+gooDrive share <file-id> --email user@example.com
+```
+
+See full documentation at [gooDrive Docs](https://mayura-andrew.github.io/gooDrive/)
+
+---
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE)
+
+## 👤 Author
+
+**Mayura Andrew** - [@mayura-andrew](https://github.com/mayura-andrew)
