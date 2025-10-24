@@ -5,7 +5,7 @@ import (
     "github.com/spf13/cobra"
 )
 
-var version = "1.0.0" // Define the version of the CLI tool
+var version = "v0.1.0-beta.1" // Define the version of the CLI tool
 
 // versionCmd represents the version command
 var versionCmd = &cobra.Command{
