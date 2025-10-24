@@ -3,8 +3,10 @@
 A powerful, minimalist CLI tool for Google Drive operations. Manage your Drive files directly from the terminal with ease.
 
 [![Website](https://img.shields.io/badge/Website-gooDrive-blue)](https://mayura-andrew.github.io/gooDrive/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8?logo=go)](https://golang.org/)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/mayura-andrew/gooDrive)](https://golang.org/)
+[![Release](https://img.shields.io/github/v/release/mayura-andrew/gooDrive)](https://github.com/mayura-andrew/gooDrive/releases)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mayura-andrew/goodrive)](https://goreportcard.com/report/github.com/mayura-andrew/goodrive)
+[![License](https://img.shields.io/github/license/mayura-andrew/gooDrive)](LICENSE)
 
 **[📖 Documentation](https://mayura-andrew.github.io/gooDrive/)** | **[🚀 Getting Started](#installation)** | **[🤝 Contributing](CONTRIBUTING.md)**
 
