@@ -15,7 +15,7 @@ builds:
     ldflags:
       - -s -w
     flags:
-      - -mod=mod
+      - -mod=readonly
     mod_timestamp: '{{ .CommitTimestamp }}'
 
 archives:
